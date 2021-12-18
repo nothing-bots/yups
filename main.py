@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 """
-Sultanov Andriy
+Russian fork by Vilfer
 """
 import keys
 import os
@@ -38,12 +38,12 @@ def show_rating(update, context):
         # Sorts the dict with the rating, turns it into a readable format
         rating = context.chat_data['rating']
         rating = {key: value for key, value in sorted(rating.items(), key=lambda x: x[1][1], reverse=True)}
-        text = '\n'.join([f"{num + 1}. {item[1][0]}: {item[1][1]} виграші" for num, item in enumerate(rating.items())])
-        reply_text = f"Рейтинг гравців у цьому чаті:\n{text}"
+        text = '\n'.join([f"{num + 1}. {item[1][0]}: {item[1][1]} Выигрыши" for num, item in enumerate(rating.items())])
+        reply_text = f"Рейтинг игроков в этом чате:\n{text}"
         update.message.reply_text(reply_text, parse_mode="Markdown")
 
     else:
-        update.message.reply_text("В цьому чаті не існує рейтингу")
+        update.message.reply_text("В этом чате нету рейтинга")
 
 
 def clear_rating(update, context):
@@ -52,9 +52,9 @@ def clear_rating(update, context):
     """
     if 'rating' in context.chat_data and context.chat_data['rating']:
         context.chat_data['rating'] = None
-        update.message.reply_text("Я почистив рейтинг")
+        update.message.reply_text("Рейтинг очещен")
     else:
-        update.message.reply_text("В цьому чаті не існує рейтингу")
+        update.message.reply_text("В этом чате нету рейтинга")
 
 
 def start(update, context):
@@ -62,14 +62,14 @@ def start(update, context):
     Starts the new round of the game
     """
     if 'is_playing' in context.chat_data and context.chat_data['is_playing']:
-        update.message.reply_text("Гра вже почалась")
+        update.message.reply_text("Игра уже началась")
         return
 
     logger.info("new game round")
 
     keyboard = [
-        [InlineKeyboardButton("Подивитись слово", callback_data="look"),
-         InlineKeyboardButton("Наступне слово", callback_data="next")]
+        [InlineKeyboardButton("Посмотреть слово", callback_data="look"),
+         InlineKeyboardButton("Следующее слово", callback_data="next")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -77,7 +77,7 @@ def start(update, context):
     user_data = update['message'].from_user
     first_name = user_data['first_name'] if user_data['first_name'] is not None else ""
     last_name = f" {user_data['last_name']}" if user_data['last_name'] is not None else ""
-    reply_text = f"[{first_name}{last_name}](tg://user?id={user_data['id']}) пояснює слово!"
+    reply_text = f"[{first_name}{last_name}](tg://user?id={user_data['id']}) объясняет слово!"
 
     context.chat_data['is_playing'] = True
     context.chat_data['current_player'] = user_data['id']
@@ -102,13 +102,13 @@ def stop(update, context):
         context.chat_data['current_player'] = None
         context.chat_data['current_word'] = None
         context.chat_data["is_playing"] = False
-        update.message.reply_text("Я зупинив гру")
+        update.message.reply_text("Игра остановлена")
 
         # Changing the state to CHOOSING_PLAYER
         return CHOOSING_PLAYER
 
     else:
-        update.message.reply_text("Немає гри, яку я можу зупинити")
+        update.message.reply_text("Нету игры, чтобы ее останавливать")
 
 
 def guesser(update, context):
@@ -144,10 +144,10 @@ def guesser(update, context):
 
         logger.info(f"Player <{user_data['username']}> guessed the word <{context.chat_data['current_word']}>")
 
-        keyboard = [[InlineKeyboardButton("Я хочу пояснювати наступним!", callback_data="next_player")]]
+        keyboard = [[InlineKeyboardButton("Я хочу объяснить следующим!", callback_data="next_player")]]
 
         reply_markup = InlineKeyboardMarkup(keyboard)
-        reply_text = f"[{first_name}{last_name}](tg://user?id={user_data['id']}) вгадав слово!"
+        reply_text = f"[{first_name}{last_name}](tg://user?id={user_data['id']}) угадал слово!"
         update.message.reply_text(reply_text, reply_markup=reply_markup, parse_mode="Markdown")
 
         # Changing the state to CHOOSING_PLAYER
@@ -172,15 +172,15 @@ def next_player(update, context):
 
         query.answer()
         keyboard = [
-            [InlineKeyboardButton("Подивитись слово", callback_data="look"),
-             InlineKeyboardButton("Наступне слово", callback_data="next")]
+            [InlineKeyboardButton("Посмотреть слово", callback_data="look"),
+             InlineKeyboardButton("Следующее слово", callback_data="next")]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
 
         # Update the temporary variables, edit the text
         first_name = query.from_user['first_name'] if query.from_user['first_name'] is not None else ""
         last_name = f" {query.from_user['last_name']}" if query.from_user['last_name'] is not None else ""
-        reply_text = f"[{first_name}{last_name}](tg://user?id={query.from_user['id']}) пояснює слово!"
+        reply_text = f"[{first_name}{last_name}](tg://user?id={query.from_user['id']}) объясняет слово!"
 
         context.chat_data["current_player"] = query.from_user['id']
         context.chat_data['current_word'] = choice(WORDS)
@@ -195,7 +195,7 @@ def next_player(update, context):
 
         # Show an alert
         query.bot.answerCallbackQuery(callback_query_id=query.id,
-                                      text="Переможець має 5 секунд на вибір, почекайте",
+                                      text="Победитель имеет 5 секунд на выбор, подождите",
                                       show_alert=True)
 
 
@@ -215,7 +215,7 @@ def see_word(update, context):
         logger.info("Current player saw the word")
     else:
         query.bot.answerCallbackQuery(callback_query_id=query.id,
-                                      text="Тобі не можна піддивлятися!",
+                                      text="Тебе нельзя смотреть!",
                                       show_alert=True)
         logger.info("Someone else asked to see the word, I didn't let them")
 
@@ -240,7 +240,7 @@ def next_word(update, context):
         logger.info("Current player skipped the word")
     else:
         query.bot.answerCallbackQuery(callback_query_id=query.id,
-                                      text="Тобі не можна переходити до наступного слова!",
+                                      text="Тебе нельзя переходить к следующему слову!",
                                       show_alert=True)
         logger.info("Someone else asked to skip the word, I didn't let them")
 
