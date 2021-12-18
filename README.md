@@ -1,7 +1,5 @@
-#MOST POPULAR PARTY GAME
+# CROCODILE - MOST POPULAR PARTY GAME #
 This is the russian version of Crocodile Game Bot. 
-
-You can test it here: https://t.me/crocodile_ukraine_bot
 
 To set this up yourself, you need to create a `keys.py` module with your
 `TOKEN` set up as an environment variable, see
