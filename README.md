@@ -1,7 +1,17 @@
-# CROCODILE - MOST POPULAR PARTY GAME #
-This is the russian version of Crocodile Game Bot. 
+# 🐊 - MOST POPULAR PARTY GAME #
+> This is the russian version of Crocodile Game Bot. 
+## Install
+Install modules
+~~~ bash
+pip i -r requirements.txt
+~~~
+**if you run bot locally, rename file sample.keys.py to keys.py and insert your telegram bot token,**
+**else set environment variable TOKEN to your token**
 
-To set this up yourself, you need to create a `keys.py` module with your
-`TOKEN` set up as an environment variable, see
-[this](https://able.bio/rhett/how-to-set-and-get-environment-variables-in-python--274rgt5)
-as an example.
+Run bot
+~~~ bash
+python main.py
+~~~
+## How to set my dictionary?
+You need edit words.txt.
+> *Please add words with lowercase*

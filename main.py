@@ -4,6 +4,10 @@
 Russian fork by Vilfer
 """
 import os
+try:
+    import keys
+except ImportError:
+    pass
 from random import shuffle, choice
 from datetime import datetime
 from telegram import (ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup)
