@@ -1,0 +1,11 @@
+{
+    "name": "Crocodile bot",
+    "description": "Telegram bot for a group chat game",
+    "repository":"https://github.com/TheVilfer/ru_crocodile_game_bot",
+    "keywords": ["Telegram", "Heroku", "bot", "english", "crocodile"],
+    "env":{
+        "TOKEN":{
+            "description": "Your bot token"
+        }
+    }
+}
