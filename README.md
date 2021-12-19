@@ -13,4 +13,4 @@ python main.py
 You need edit words.txt.
 > *Please add words with lowercase*
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/TheVilfer/ru_crocodile_game_bot)
