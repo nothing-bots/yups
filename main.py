@@ -88,7 +88,7 @@ def start(update, context):
     # Randomly chooses the word from a list and puts it into the chat data
     word_choice = choice(WORDS)
     context.chat_data['current_word'] = word_choice
-    logger.info(f"Chose the word {word_choice}")
+    logger.info(f"Choose the word {word_choice}")
 
     update.message.reply_text(reply_text, reply_markup=reply_markup, parse_mode="Markdown")
 
