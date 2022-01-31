@@ -53,6 +53,9 @@ def clear_rating(update, context):
     """
     Clears the current game rating board
     """
+    if context.bot.getChatMember(update.message.chat.id, update.message.from_user.id).status == 'member':
+        update.message.reply_text("Команда доступна только администраторам")
+        return
     if 'rating' in context.chat_data and context.chat_data['rating']:
         context.chat_data['rating'] = None
         update.message.reply_text("Рейтинг очещен")
@@ -64,6 +67,9 @@ def start(update, context):
     """
     Starts the new round of the game
     """
+    if context.bot.getChatMember(update.message.chat.id, update.message.from_user.id).status == 'member':
+        update.message.reply_text("Команда доступна только администраторам")
+        return
     if 'is_playing' in context.chat_data and context.chat_data['is_playing']:
         update.message.reply_text("Игра уже началась")
         return
@@ -100,7 +106,9 @@ def stop(update, context):
     """
     Stops the current game
     """
-    if 'is_playing' in context.chat_data and context.chat_data["is_playing"]:
+    if context.bot.getChatMember(update.message.chat.id, update.message.from_user.id).status == 'member':
+        update.message.reply_text("Команда доступна только администраторам")
+    elif 'is_playing' in context.chat_data and context.chat_data["is_playing"]:
         # Emptying all the temporary chat variables
         context.chat_data['current_player'] = None
         context.chat_data['current_word'] = None
@@ -167,7 +175,11 @@ def next_player(update, context):
     """
     logger.info("Next player")
     query = update.callback_query
+    if not('is_playing' in context.chat_data and context.chat_data['is_playing']):
+        query.bot.answerCallbackQuery(callback_query_id=query.id, text="Игра сейчас недоступна", show_alert=True)
+        return
 
+        
     # If the user trying to press a button is the winner or if 5 seconds
     # for their unique opportuinity have passed, start a new round
     if (query.from_user['id'] == context.chat_data['winner'] or
