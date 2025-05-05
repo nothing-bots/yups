@@ -107,7 +107,7 @@ def stop(update, context):
     Stops the current game
     """
     if context.bot.getChatMember(update.message.chat.id, update.message.from_user.id).status == 'member':
-        update.message.reply_text("Команда доступна только администраторам")
+        update.message.reply_text("The command is available only to administrators.")
     elif 'is_playing' in context.chat_data and context.chat_data["is_playing"]:
         # Emptying all the temporary chat variables
         context.chat_data['current_player'] = None
